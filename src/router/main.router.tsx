@@ -1,20 +1,24 @@
+import { Layout } from "@/components/layout";
 import { createBrowserRouter } from "react-router-dom";
 import { FavoritesPage } from "../pages/favoritesPage";
-import { LoginPage } from "../pages/loginPage";
 import { SearchPage } from "../pages/searchPage";
 
 const router = createBrowserRouter([
   {
-    path: "/",
-    element: <LoginPage />,
-  },
-  {
     path: "/medi-search",
-    element: <SearchPage />,
+    element: (
+      <Layout>
+        <SearchPage />
+      </Layout>
+    ),
   },
   {
     path: "/favoritos",
-    element: <FavoritesPage />,
+    element: (
+      <Layout>
+        <FavoritesPage />
+      </Layout>
+    ),
   },
 ]);
 
