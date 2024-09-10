@@ -5,7 +5,7 @@ import { SearchPage } from "../pages/searchPage";
 
 const router = createBrowserRouter([
   {
-    path: "/medi-search",
+    path: "/",
     element: (
       <Layout>
         <SearchPage />
