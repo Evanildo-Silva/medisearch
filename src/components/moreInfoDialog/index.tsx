@@ -1,3 +1,4 @@
+import { Result } from "@/shared/services/listdrugs.dto";
 import { useState } from "react";
 import { Button } from "../ui/button";
 import {
@@ -10,36 +11,10 @@ import {
 import { ScrollArea } from "../ui/scroll-area";
 
 interface MoreInfoDialogProps {
-  brand_name: string;
-  generic_name: string;
-  manufacturer_name: string;
-  indications_and_usage: string;
-  dosage_and_administration: string;
-  contraindications: string;
-  warnings?: string;
-  adverse_reactions: string;
-  drug_interactions: string;
-  storage_and_handling: string;
-  pregnancy: string;
-  pharm_class_epc: string;
-  route: string;
+  drugInfo: Result;
 }
 
-function MoreInfoDialog({
-  brand_name,
-  generic_name,
-  manufacturer_name,
-  indications_and_usage,
-  dosage_and_administration,
-  contraindications,
-  warnings,
-  adverse_reactions,
-  drug_interactions,
-  storage_and_handling,
-  pregnancy,
-  pharm_class_epc,
-  route,
-}: MoreInfoDialogProps) {
+function MoreInfoDialog({ drugInfo }: MoreInfoDialogProps) {
   const [isOpen, setIsOpen] = useState(false); // Estado para controlar abertura/fechamento do dialog
 
   return (
@@ -64,58 +39,70 @@ function MoreInfoDialog({
         <ScrollArea className="h-[45vh]">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
             <div className="text-left">
-              <h1 className="text-xl font-bold">Brand Name:</h1>
-              <p>{brand_name}</p>
+              <h1 className="text-xl font-bold">Nome:</h1>
+              <p>{drugInfo.openfda.brand_name ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Generic Name:</h1>
-              <p>{generic_name}</p>
+              <h1 className="text-xl font-bold">Nome genérico:</h1>
+              <p>{drugInfo.openfda.generic_name ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Manufacturer Name:</h1>
-              <p>{manufacturer_name}</p>
+              <h1 className="text-xl font-bold">Nome do fabricante:</h1>
+              <p>{drugInfo.openfda.manufacturer_name ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Indications and Usage:</h1>
-              <p>{indications_and_usage}</p>
+              <h1 className="text-xl font-bold">Indicações e uso:</h1>
+              <p>{drugInfo.indications_and_usage ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Dosage and Administration:</h1>
-              <p>{dosage_and_administration}</p>
+              <h1 className="text-xl font-bold">Dosagem e Administração:</h1>
+              <p>{drugInfo.dosage_and_administration ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Contraindications:</h1>
-              <p>{contraindications}</p>
-            </div>
-            {warnings && (
-              <div className="text-left">
-                <h1 className="text-xl font-bold">Warnings:</h1>
-                <p>{warnings}</p>
-              </div>
-            )}
-            <div className="text-left">
-              <h1 className="text-xl font-bold">Adverse Reactions:</h1>
-              <p>{adverse_reactions}</p>
+              <h1 className="text-xl font-bold">Avisos:</h1>
+              <p>{drugInfo.warnings ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Drug Interactions:</h1>
-              <p>{drug_interactions}</p>
+              <h1 className="text-xl font-bold">Contraindicações:</h1>
+              <p>{drugInfo.contraindications ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Storage and Handling:</h1>
-              <p>{storage_and_handling}</p>
+              <h1 className="text-xl font-bold">Reações adversas:</h1>
+              <p>{drugInfo.adverse_reactions ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Pregnancy:</h1>
-              <p>{pregnancy}</p>
+              <h1 className="text-xl font-bold">Interações medicamentosas:</h1>
+              <p>{drugInfo.drug_interactions ?? "-"}</p>
             </div>
             <div className="text-left">
-              <h1 className="text-xl font-bold">Pharmacologic Class (EPC):</h1>
-              <p>{pharm_class_epc}</p>
+              <h1 className="text-xl font-bold">Armazenamento e manuseio:</h1>
+              <p>{drugInfo.storage_and_handling ?? "-"}</p>
+            </div>
+            <div className="text-left">
+              <h1 className="text-xl font-bold">Cuidados na maternidade:</h1>
+              <p>
+                {drugInfo.pregnancy_or_breast_feeding
+                  ? drugInfo.pregnancy_or_breast_feeding
+                  : drugInfo.pregnancy
+                  ? drugInfo.pregnancy
+                  : "-"}
+              </p>
+            </div>
+            <div className="text-left">
+              <h1 className="text-xl font-bold">Classe Farmacológica(EPC):</h1>
+              <p>{drugInfo.openfda.pharm_class_epc ?? "-"}</p>
             </div>
             <div className="text-left">
               <h1 className="text-xl font-bold">Route:</h1>
-              <p>{route}</p>
+              <p>{drugInfo.openfda.route ?? "-"}</p>
+            </div>
+            <div className="text-left">
+              <h1 className="text-xl font-bold">Substância controlada:</h1>
+              <p>{drugInfo.controlled_substance ?? "-"}</p>
+            </div>
+            <div className="text-left">
+              <h1 className="text-xl font-bold">Abuso:</h1>
+              <p>{drugInfo.abuse ?? "-"}</p>
             </div>
           </div>
         </ScrollArea>

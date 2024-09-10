@@ -1,4 +1,5 @@
 import { Heart } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 import { Badge } from "../ui/badge";
 
 type HeaderFavoritesActionsProps = {
@@ -6,8 +7,13 @@ type HeaderFavoritesActionsProps = {
 };
 
 function HeaderFavoritesActions({ favorites }: HeaderFavoritesActionsProps) {
+  const navigate = useNavigate();
+
   return (
-    <div className="hidden md:flex items-center gap-2 min-w-[8.5rem] hover:cursor-pointer mr-8 hover:scale-105 transition-transform duration-300">
+    <div
+      onClick={() => favorites > 0 && navigate("/favoritos")}
+      className="hidden md:flex items-center gap-2 min-w-[8.5rem] hover:cursor-pointer mr-8 hover:scale-105 transition-transform duration-300"
+    >
       <div className="flex justify-center items-center h-10 w-10 shrink-0 overflow-hidden rounded-full bg-muted">
         <Heart fill="#ef4444" className="w-5 h-5 text-red-500" />
       </div>
