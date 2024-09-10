@@ -1,7 +1,6 @@
+import { Result } from "@/shared/services/listdrugs.dto";
 import { Heart } from "lucide-react";
-import { useState } from "react";
 import { MoreInfoDialog } from "../moreInfoDialog";
-import { Button } from "../ui/button";
 import {
   Card,
   CardContent,
@@ -10,68 +9,66 @@ import {
   CardHeader,
   CardTitle,
 } from "../ui/card";
+import { ScrollArea } from "../ui/scroll-area";
 
 interface DrugCardProps {
-  brand_name: string;
-  generic_name: string;
-  manufacturer_name: string;
-  indications_and_usage: string;
-  route: string;
+  brand_name?: string;
+  generic_name?: string;
+  manufacturer_name?: string;
+  active_ingredient?: string;
+  route?: string;
+  drugInfo: Result;
+  isFavorite: boolean;
+  toggleFunction: () => void;
 }
 function DrugCard({
   brand_name,
   generic_name,
   manufacturer_name,
-  indications_and_usage,
+  active_ingredient,
   route,
+  drugInfo,
+  isFavorite,
+  toggleFunction,
 }: DrugCardProps) {
-  const [isFavorited, setIsFavorited] = useState(false); // Estado para controlar o favorito
-
-  // Função para alternar o estado de favoritar
-  const toggleFavorite = () => {
-    setIsFavorited(!isFavorited);
-  };
   return (
     <Card className="w-full border rounded-lg shadow-lg overflow-hidden bg-white mb-2">
       <CardHeader>
-        <CardTitle>{brand_name}</CardTitle>
-        <CardDescription>{generic_name}</CardDescription>
+        {brand_name && <CardTitle>{brand_name}</CardTitle>}
+        <ScrollArea className="h-8">
+          {generic_name && <CardDescription>{generic_name}</CardDescription>}
+        </ScrollArea>
       </CardHeader>
-      <CardContent className="pb-6 px8">
-        <p>
-          <strong>Fabricante:</strong> {manufacturer_name}
-        </p>
-        <p>
-          <strong>Indicações de Uso:</strong> {indications_and_usage}
-        </p>
-        <p>
-          <strong>Via de Administração:</strong> {route}
-        </p>
-      </CardContent>
+      <ScrollArea className="h-[100px]">
+        <CardContent className="pb-3 px-8">
+          {manufacturer_name && (
+            <p>
+              <strong>Fabricante:</strong> {manufacturer_name}
+            </p>
+          )}
+          {active_ingredient && (
+            <p>
+              <strong>Ingrediente ativo:</strong> {active_ingredient}
+            </p>
+          )}
+          {route && (
+            <p>
+              <strong>Via de Administração:</strong> {route}
+            </p>
+          )}
+        </CardContent>
+      </ScrollArea>
       <CardFooter className="p-4 bg-gray-100 flex justify-between items-center">
-        <MoreInfoDialog
-          brand_name={""}
-          generic_name={""}
-          manufacturer_name={""}
-          indications_and_usage={""}
-          dosage_and_administration={""}
-          contraindications={""}
-          adverse_reactions={""}
-          drug_interactions={""}
-          storage_and_handling={""}
-          pregnancy={""}
-          pharm_class_epc={""}
-          route={""}
-        />
-        <Button
-          onClick={toggleFavorite}
+        <MoreInfoDialog drugInfo={drugInfo} />
+        <button
+          onClick={toggleFunction}
           className="flex justify-center items-center h-10 w-10 shrink-0 overflow-hidden rounded-full bg-white hover:cursor-pointer hover:scale-105 transition-transform duration-300"
         >
           <Heart
-            fill={isFavorited ? "#ef4444" : "none"}
+            fill={isFavorite ? "#ef4444" : "none"}
             className="w-6 h-6 text-red-500"
           />
-        </Button>
+        </button>
       </CardFooter>
     </Card>
   );
